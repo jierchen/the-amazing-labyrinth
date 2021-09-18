@@ -80,14 +80,14 @@ public class Board {
      * @param treasures treasures of the game
      */
     public Board(Player[] players, Treasure[] treasures) {
-
+        this.players = players;
+        this.treasures = treasures;
     }
 
     /**
      * Initializes the board by setting up the board tiles
      */
     public void init() {
-
         setupTiles();
         connectTiles(0, tiles.length - 1, 0, tiles.length - 1);
         connectPlayersToTiles();
@@ -120,7 +120,6 @@ public class Board {
 
         // Randomize shiftable tiles data
         Collections.shuffle(shiftableTilesData, new Random());
-        System.out.println(shiftableTilesData);
 
         // Setup board tiles
         int stationaryTreasureCounter = 0;
