@@ -69,29 +69,29 @@ public abstract class Tile extends Piece {
      * @param tile model.Tile to be connected
      */
     public void addAdjTile(Tile tile) {
-
+        this.adjTiles.add(tile);
     }
 
     /**
      * Removes all connected tiles in {@code adjTiles}
      */
     public void removeAdjTiles() {
-
+        this.adjTiles.clear();
     }
 
     /**
      * Adds a player to list of players on the tile
      *
-     * @param player model.Player to be added
+     * @param player player to be added
      */
     public void addPlayerOnTile(Player player) {
-
+        
     }
 
     /**
      * Removes a player from list of players on the tile
      *
-     * @param player model.Player to be removed
+     * @param player player to be removed
      */
     public void removePlayerOnTile(Player player) {
 
