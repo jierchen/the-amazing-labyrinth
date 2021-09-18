@@ -15,19 +15,21 @@ public class Game {
     // Extra insertable tile
     private Tile insertableTile;
 
+    // Players of the game
+    private Player[] players;
+
     /**
      * Constructor
      *
-     * Creates and sets up a new game state
-     *
-     * @param isComputerPlayer array representing which players are computer players
+     * @param players players of the game
      */
-    public Game(boolean[] isComputerPlayer) {
-
+    public Game(Player[] players) {
+        this.players = players;
     }
 
     /**
-     * Initializes the game by setting up players and game states of all pieces
+     * Initializes the game by setting up players
+     * and game states of all pieces
      */
     public void init() {
 
