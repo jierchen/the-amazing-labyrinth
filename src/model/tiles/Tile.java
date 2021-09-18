@@ -116,7 +116,15 @@ public abstract class Tile extends Piece {
      * and returns orientation to 0 when rotating at 270 degrees
      */
     public void rotate() {
+        // rotate 90 degrees
+        this.orientation++;
 
+        if(this.orientation > 3) {
+            // start back at 'normal' rotation
+            this.orientation = 0;
+        }
+
+        this.updateOpenings();
     }
 
     /**
