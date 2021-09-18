@@ -31,7 +31,7 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
         // Setup GUI elements
-        setup();
+        this.setup();
     }
 
     /**
@@ -89,6 +89,7 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
 
             // create new game instance
             GameManager gameManager = new GameManager();
+            gameManager.init();
 
             this.dispose();
         }
