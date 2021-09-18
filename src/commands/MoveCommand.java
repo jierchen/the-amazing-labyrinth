@@ -6,11 +6,12 @@ import model.tiles.Tile;
 
 public class MoveCommand implements Command {
 
-    public Board board;
-    public Tile[][] tiles;
-    public Player player;
-    public int targetRow;
-    public int targetCol;
+    private Board board;
+    private Tile[][] tiles;
+    private Player player;
+    private int targetRow;
+    private int targetCol;
+
 
     public MoveCommand(Board board) {
         this.board = board;
