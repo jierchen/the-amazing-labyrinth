@@ -29,6 +29,9 @@ public class Game {
     // Turn information
     private GameManager.TurnState turnState;
 
+    // Action commands
+    MoveCommand moveCommand;
+    SlideCommand slideCommand;
 
     /**
      * Constructor
@@ -55,6 +58,9 @@ public class Game {
 
         this.insertableTile = board.getInsertableTile();
 
+        // Initalize commands
+        slideCommand = new SlideCommand(this.getBoard());
+        moveCommand = new MoveCommand(this.getBoard());
     }
 
     /**
@@ -127,11 +133,30 @@ public class Game {
      * @param slideLine row or column number to slide the insertable tile
      */
     public void slideInsertableTileAction(int slideDirection, int slideLine) {
+        if(!turnState.hasInsertedTile() && !turnState.hasMoved()) {
+            slideCommand.setDirection(slideDirection);
+            slideCommand.setLine(slideLine);
 
+            if (slideCommand.isLegal()) {
+                slideCommand.execute();
+
+                turnState.setInsertedTile(true);
+            }
+        }
     }
 
     public void movePlayerAction(int targetRow, int targetCol) {
+        if(turnState.hasInsertedTile() && !turnState.hasMoved()) {
+            moveCommand.setPlayer(players[turnState.getPlayerTurn()]);
+            moveCommand.setTargetRow(targetRow);
+            moveCommand.setTargetCol(targetCol);
 
+            if (moveCommand.isLegal()) {
+                moveCommand.execute();
+
+                turnState.setMoved(true);
+            }
+        }
     }
 
     // Setters and Getters
