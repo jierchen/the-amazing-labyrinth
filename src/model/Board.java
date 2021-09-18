@@ -48,11 +48,11 @@ public class Board {
 
         // getters
         public char getType() {
-            return this.type;
+            return type;
         }
 
         public int getTreasureNum() {
-            return this.treasureNum;
+            return treasureNum;
         }
 
         public String toString(){
@@ -89,7 +89,7 @@ public class Board {
     public void init() {
 
         setupTiles();
-        connectTiles(0, this.tiles.length - 1, 0, this.tiles.length - 1);
+        connectTiles(0, tiles.length - 1, 0, tiles.length - 1);
         connectPlayersToTiles();
     }
 
@@ -126,8 +126,8 @@ public class Board {
         int stationaryTreasureCounter = 0;
         int dataCounter = 0;
 
-        for(int row = 0; row < this.tiles.length; row++) {
-            for(int col = 0; col < this.tiles[row].length; col++) {
+        for(int row = 0; row < tiles.length; row++) {
+            for(int col = 0; col < tiles[row].length; col++) {
 
                 char tileType = STATIONARY_TILES_TYPE_MATRIX[row][col];
 
@@ -136,10 +136,10 @@ public class Board {
 
                     // Stationary L-tiles have no treasures
                     if(tileType == 'L') {
-                        this.tiles[row][col] = generateTile(row, col, tileType, -1, true);
+                        tiles[row][col] = generateTile(row, col, tileType, -1, true);
                     }
                     else {
-                        this.tiles[row][col] = generateTile(row, col, tileType, stationaryTreasureCounter, true);
+                        tiles[row][col] = generateTile(row, col, tileType, stationaryTreasureCounter, true);
                         stationaryTreasureCounter++;
                     }
                 }
@@ -147,7 +147,7 @@ public class Board {
                 else {
                     TypeAndTreasureNum currentTileData = shiftableTilesData.get(dataCounter);
 
-                    this.tiles[row][col] = generateTile(row, col, currentTileData.getType(), currentTileData.getTreasureNum(),false);
+                    tiles[row][col] = generateTile(row, col, currentTileData.getType(), currentTileData.getTreasureNum(),false);
                     dataCounter++;
                 }
             }
@@ -157,8 +157,8 @@ public class Board {
         TypeAndTreasureNum extraTileData = shiftableTilesData.get(dataCounter);
 
         // create extra tile object
-        this.insertableTile = generateTile(-1, -1, extraTileData.getType(), extraTileData.getTreasureNum(), false);
-        this.insertableTile.setInsertable(true);
+        insertableTile = generateTile(-1, -1, extraTileData.getType(), extraTileData.getTreasureNum(), false);
+        insertableTile.setInsertable(true);
     }
 
     /**
@@ -195,7 +195,7 @@ public class Board {
 
         //add treasure
         if(treasureNum != -1) {
-            newTile.setTreasure(this.treasures[treasureNum]);
+            newTile.setTreasure(treasures[treasureNum]);
         }
 
         return newTile;
@@ -212,31 +212,31 @@ public class Board {
     private void connectTiles(int rowStart, int rowEnd, int colStart, int colEnd) {
         // Limit the bounds
         rowStart = Math.max(rowStart, 0);
-        rowEnd = Math.min(rowEnd, this.tiles.length - 1);
+        rowEnd = Math.min(rowEnd, tiles.length - 1);
         colStart = Math.max(colStart, 0);
-        colEnd = Math.min(colEnd, this.tiles.length - 1);
+        colEnd = Math.min(colEnd, tiles.length - 1);
 
         for(int row = rowStart; row <= rowEnd; row++) {
             for(int col = colStart; col <= colEnd; col++) {
 
                 // Connects to the tile above
-                if(row != 0 && this.tiles[row][col].getOpening(0) && this.tiles[row - 1][col].getOpening(2)) {
-                    this.tiles[row][col].addAdjTile(this.tiles[row - 1][col]);
+                if(row != 0 && tiles[row][col].getOpening(0) && tiles[row - 1][col].getOpening(2)) {
+                    tiles[row][col].addAdjTile(tiles[row - 1][col]);
                 }
 
                 // Connects to the tile to the right
-                if(col != 6 && this.tiles[row][col].getOpening(1) && this.tiles[row][col + 1].getOpening(3)) {
-                    this.tiles[row][col].addAdjTile(this.tiles[row][col + 1]);
+                if(col != 6 && tiles[row][col].getOpening(1) && tiles[row][col + 1].getOpening(3)) {
+                    tiles[row][col].addAdjTile(tiles[row][col + 1]);
                 }
 
                 // Connects to the tile below
-                if(row != 6 && this.tiles[row][col].getOpening(2) && this.tiles[row + 1][col].getOpening(0)) {
-                    this.tiles[row][col].addAdjTile(this.tiles[row + 1][col]);
+                if(row != 6 && tiles[row][col].getOpening(2) && tiles[row + 1][col].getOpening(0)) {
+                    tiles[row][col].addAdjTile(tiles[row + 1][col]);
                 }
 
                 // Connects to the tile to the left
-                if(col != 0 && this.tiles[row][col].getOpening(3) && this.tiles[row][col - 1].getOpening(1)) {
-                    this.tiles[row][col].addAdjTile(this.tiles[row][col - 1]);
+                if(col != 0 && tiles[row][col].getOpening(3) && tiles[row][col - 1].getOpening(1)) {
+                    tiles[row][col].addAdjTile(tiles[row][col - 1]);
                 }
             }
         }
@@ -247,7 +247,7 @@ public class Board {
      */
     private void connectPlayersToTiles() {
         for(Player player: players) {
-            Tile homeTile = this.tiles[player.getRow()][player.getCol()];
+            Tile homeTile = tiles[player.getRow()][player.getCol()];
 
             player.setHomeTile(homeTile);
             homeTile.addPlayerOnTile(player);
@@ -295,12 +295,12 @@ public class Board {
      */
     public void movePlayer(Player player, int row, int col) {
         // Remove player from its current tile
-        this.tiles[player.getRow()][player.getCol()].removePlayerOnTile(player);
+        tiles[player.getRow()][player.getCol()].removePlayerOnTile(player);
 
         // Move to new tile
         player.setRow(row);
         player.setCol(col);
-        this.tiles[row][col].addPlayerOnTile(player);
+        tiles[row][col].addPlayerOnTile(player);
 
         // Check if player returned home with all treasures
         if(player.hasCollectedAll() && tiles[player.getRow()][player.getCol()] == player.getHomeTile()) {
@@ -347,7 +347,7 @@ public class Board {
     public void shiftRowRight(int row) {
         // Hold new extra tile
         Tile newExtraTile = tiles[row][tiles.length - 1];
-        this.becomeInsertableTile(newExtraTile);
+        becomeInsertableTile(newExtraTile);
 
         // Shift row
         for (int col = tiles[row].length - 1; col > 0; col--) {
@@ -376,7 +376,7 @@ public class Board {
     public void shiftColDown(int col) {
         // Hold new extra tile
         Tile newExtraTile = tiles[tiles.length - 1][col];
-        this.becomeInsertableTile(newExtraTile);
+        becomeInsertableTile(newExtraTile);
 
         // Shift column
         for (int row = tiles.length - 1; row > 0; row--) {
@@ -405,7 +405,7 @@ public class Board {
     public void shiftColUp(int col) {
         // Hold new extra tile
         Tile newExtraTile = tiles[0][col];
-        this.becomeInsertableTile(newExtraTile);
+        becomeInsertableTile(newExtraTile);
 
         // Shift column
         for (int row = 0; row < tiles.length - 1; row++) {
@@ -456,18 +456,18 @@ public class Board {
     }
 
     public Tile[][] getTiles() {
-        return this.tiles;
+        return tiles;
     }
 
     public Player[] getPlayers() {
-        return this.players;
+        return players;
     }
 
     public Treasure[] getTreasures() {
-        return this.treasures;
+        return treasures;
     }
 
     public Tile getInsertableTile() {
-        return this.insertableTile;
+        return insertableTile;
     }
 }

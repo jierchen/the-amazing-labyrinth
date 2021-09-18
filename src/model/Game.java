@@ -49,18 +49,18 @@ public class Game {
      */
     public void init() {
         // Setup pre-game components
-        this.setupCardsAndTreasures();
-        this.distributeCards();
+        setupCardsAndTreasures();
+        distributeCards();
 
         // Initialize new board
-        this.board = new Board(this.players, this.treasures);
-        this.board.init();
+        board = new Board(players, treasures);
+        board.init();
 
-        this.insertableTile = board.getInsertableTile();
+        insertableTile = board.getInsertableTile();
 
         // Initalize commands
-        slideCommand = new SlideCommand(this.getBoard());
-        moveCommand = new MoveCommand(this.getBoard());
+        slideCommand = new SlideCommand(getBoard());
+        moveCommand = new MoveCommand(getBoard());
     }
 
     /**
@@ -72,7 +72,7 @@ public class Game {
         int[][] startingPoints = {{0,0}, {6, 0}, {0, 6}, {6, 6}};
 
         for(int playerNum = 0; playerNum < NUM_PLAYERS; playerNum++) {
-            this.players[playerNum] = new Player(startingPoints[playerNum][0],
+            players[playerNum] = new Player(startingPoints[playerNum][0],
                     startingPoints[playerNum][1], colours[playerNum]);
         }
     }
@@ -82,12 +82,12 @@ public class Game {
      */
     private void setupCardsAndTreasures() {
         // Create treasures and treasure cards
-        this.treasures = new Treasure[Treasure.TREASURE_AMOUNT];
-        this.cards = new Card[Treasure.TREASURE_AMOUNT];
+        treasures = new Treasure[Treasure.TREASURE_AMOUNT];
+        cards = new Card[Treasure.TREASURE_AMOUNT];
 
         for(int i = 0; i < Treasure.TREASURE_AMOUNT; i++) {
-            this.treasures[i] = new Treasure(i);
-            this.cards[i] = new Card(this.treasures[i]);
+            treasures[i] = new Treasure(i);
+            cards[i] = new Card(treasures[i]);
         }
     }
 
@@ -161,11 +161,11 @@ public class Game {
 
     // Setters and Getters
     public Board getBoard() {
-        return this.board;
+        return board;
     }
 
     public Tile getInsertableTile() {
-        return this.insertableTile;
+        return insertableTile;
     }
 
 }

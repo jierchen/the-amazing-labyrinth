@@ -51,7 +51,7 @@ public abstract class Tile extends Piece {
      * Removes current treasure on tile
      */
     public void removeTreasure() {
-        this.treasure = null;
+        treasure = null;
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class Tile extends Piece {
      * @return if the treasure is not null
      */
     public boolean hasTreasure() {
-        return this.treasure != null;
+        return treasure != null;
     }
 
     /**
@@ -69,14 +69,14 @@ public abstract class Tile extends Piece {
      * @param tile model.Tile to be connected
      */
     public void addAdjTile(Tile tile) {
-        this.adjTiles.add(tile);
+        adjTiles.add(tile);
     }
 
     /**
      * Removes all connected tiles in {@code adjTiles}
      */
     public void removeAdjTiles() {
-        this.adjTiles.clear();
+        adjTiles.clear();
     }
 
     /**
@@ -85,13 +85,13 @@ public abstract class Tile extends Piece {
      * @param player player to be added
      */
     public void addPlayerOnTile(Player player) {
-        this.playersOnTile.add(player);
+        playersOnTile.add(player);
 
-        if(player.getTopOfHand() != null && player.getTopOfHand().getTreasure() == this.treasure) {
+        if(player.getTopOfHand() != null && player.getTopOfHand().getTreasure() == treasure) {
             player.goToNextCard();
 
-            this.treasure.setCollected(true);
-            this.treasure = null;
+            treasure.setCollected(true);
+            treasure = null;
         }
     }
 
@@ -117,14 +117,14 @@ public abstract class Tile extends Piece {
      */
     public void rotate() {
         // rotate 90 degrees
-        this.orientation++;
+        orientation++;
 
-        if(this.orientation > 3) {
+        if(orientation > 3) {
             // start back at 'normal' rotation
-            this.orientation = 0;
+            orientation = 0;
         }
 
-        this.updateOpenings();
+        updateOpenings();
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class Tile extends Piece {
     }
 
     public ArrayList<Player> getPlayersOnTile() {
-        return this.playersOnTile;
+        return playersOnTile;
     }
 
     @Override
@@ -151,7 +151,7 @@ public abstract class Tile extends Piece {
     }
 
     public boolean[] getOpenings() {
-        return this.openings;
+        return openings;
     }
 
     public boolean getOpening(int dir){
@@ -163,7 +163,7 @@ public abstract class Tile extends Piece {
     }
 
     public Treasure getTreasure() {
-        return this.treasure;
+        return treasure;
     }
 
     public void setType(char type) {
@@ -171,7 +171,7 @@ public abstract class Tile extends Piece {
     }
 
     public char getType() {
-        return this.type;
+        return type;
     }
 
     public void setOrientation(int orientation) {
@@ -179,7 +179,7 @@ public abstract class Tile extends Piece {
     }
 
     public int getOrientation() {
-        return this.orientation;
+        return orientation;
     }
 
     public void setInsertable(boolean extra) {
@@ -187,7 +187,7 @@ public abstract class Tile extends Piece {
     }
 
     public boolean isInsertable() {
-        return this.insertable;
+        return insertable;
     }
 
 }

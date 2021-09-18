@@ -29,28 +29,28 @@ public class GameManager {
             this.playerTurn = playerTurn;
         }
         public int getPlayerTurn() {
-            return this.playerTurn;
+            return playerTurn;
         }
 
         public void setInsertedTile(boolean insertedTile) {
             this.insertedTile = insertedTile;
         }
         public boolean hasInsertedTile() {
-            return this.insertedTile;
+            return insertedTile;
         }
 
         public void setMoved(boolean moved) {
             this.moved = moved;
         }
         public boolean hasMoved() {
-            return this.moved;
+            return moved;
         }
 
         public void setGameEnded(boolean gameEnded) {
             this.gameEnded = gameEnded;
         }
         public boolean hasGameEnded() {
-            return this.gameEnded;
+            return gameEnded;
         }
     }
 
@@ -73,13 +73,13 @@ public class GameManager {
      * Initializes Model View Controller and turn state
      */
     public void init() {
-        this.players = new Player[NUM_PLAYERS];
+        players = new Player[NUM_PLAYERS];
 
         // Setup turnState
-        this.turnState = new TurnState(0, false, false, false);
+        turnState = new TurnState(0, false, false, false);
 
         // Setup game model
-        Game game = new Game(this.turnState, this.players);
+        Game game = new Game(turnState, players);
         game.init();
 
         // Setup game view

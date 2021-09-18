@@ -41,7 +41,7 @@ public class Player extends Piece {
      * @param card The card to be sent to the top of the stack
      */
     public void addToHand(Card card){
-        this.hand.push(card);
+        hand.push(card);
     }
 
     /**
@@ -69,8 +69,9 @@ public class Player extends Piece {
     public void setHand(Stack<Card> hand) {
         this.hand = hand;
     }
+
     public Stack<Card> getHand() {
-        return this.hand;
+        return hand;
     }
 
     public void setReturnedHome(boolean returnedHome) {
@@ -78,7 +79,7 @@ public class Player extends Piece {
     }
 
     public boolean hasReturnedHome() {
-        return this.returnedHome;
+        return returnedHome;
     }
 
     public void setHomeTile(Tile homeTile) {
@@ -86,6 +87,6 @@ public class Player extends Piece {
     }
 
     public Tile getHomeTile() {
-        return this.homeTile;
+        return homeTile;
     }
 }

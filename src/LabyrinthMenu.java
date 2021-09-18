@@ -31,7 +31,7 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
         // Setup GUI elements
-        this.setup();
+        setup();
     }
 
     /**

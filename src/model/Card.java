@@ -16,7 +16,7 @@ public class Card {
 
     // Setters and getters
     public Treasure getTreasure() {
-        return this.treasure;
+        return treasure;
     }
 
 }

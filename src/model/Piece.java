@@ -20,14 +20,14 @@ public abstract class Piece {
 
     // Getters and setters
     public int getRow() {
-        return this.row;
+        return row;
     }
     public void setRow(int row) {
         this.row = row;
     }
 
     public int getCol() {
-        return this.col;
+        return col;
     }
     public void setCol(int col) {
         this.col = col;

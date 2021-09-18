@@ -18,7 +18,7 @@ public class Treasure {
 
     // Setters and getters
     public int getTreasureNum() {
-        return this.treasureNum;
+        return treasureNum;
     }
 
     public void setCollected(boolean collected) {
@@ -26,7 +26,7 @@ public class Treasure {
     }
 
     public boolean isCollected() {
-        return this.collected;
+        return collected;
     }
 
 }
