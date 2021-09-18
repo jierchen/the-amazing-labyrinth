@@ -1,8 +1,10 @@
 package model;
 
+import algorithm.BreadthFirstSearch;
 import commands.MoveCommand;
 import commands.SlideCommand;
 import model.tiles.Tile;
+import util.TurnState;
 
 import java.util.Random;
 import java.util.Stack;
@@ -27,7 +29,7 @@ public class Game {
     private Player[] players;
 
     // Turn information
-    private GameManager.TurnState turnState;
+    private TurnState turnState;
 
     // Action commands
     MoveCommand moveCommand;
@@ -38,7 +40,7 @@ public class Game {
      *
      * @param players players of the game
      */
-    public Game(GameManager.TurnState turnState, Player[] players) {
+    public Game(TurnState turnState, Player[] players) {
         this.turnState = turnState;
         this.players = players;
     }
@@ -49,6 +51,7 @@ public class Game {
      */
     public void init() {
         // Setup pre-game components
+        setupPlayers();
         setupCardsAndTreasures();
         distributeCards();
 
@@ -134,6 +137,7 @@ public class Game {
      */
     public void slideInsertableTileAction(int slideDirection, int slideLine) {
         if(!turnState.hasInsertedTile() && !turnState.hasMoved()) {
+            System.out.println("Slide");
             slideCommand.setDirection(slideDirection);
             slideCommand.setLine(slideLine);
 
@@ -141,6 +145,9 @@ public class Game {
                 slideCommand.execute();
 
                 turnState.setInsertedTile(true);
+
+                // Retrieve new insertable tile
+                this.insertableTile = board.getInsertableTile();
             }
         }
     }
