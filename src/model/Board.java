@@ -269,7 +269,17 @@ public class Board {
      * @param colEnd end of column constraint
      */
     private void disconnectTiles(int rowStart, int rowEnd, int colStart, int colEnd) {
+        // Limit the bounds
+        rowStart = Math.max(rowStart, 0);
+        rowEnd = Math.min(rowEnd, tiles.length - 1);
+        colStart = Math.max(colStart, 0);
+        colEnd = Math.min(colEnd, tiles.length - 1);
 
+        for(int row = rowStart; row <= rowEnd; row++) {
+            for(int col = colStart; col <= colEnd; col++) {
+                tiles[row][col].removeAdjTiles();
+            }
+        }
     }
 
     /**
