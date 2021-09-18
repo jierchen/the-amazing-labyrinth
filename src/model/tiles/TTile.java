@@ -32,7 +32,7 @@ public class TTile extends Tile {
      */
     @Override
     public void updateOpenings() {
-
+        this.openings = OPENINGS_BY_ORIENTATION[this.getOrientation()];
     }
 
 }
