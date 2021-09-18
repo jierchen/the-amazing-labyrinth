@@ -1,5 +1,7 @@
 package model;
 
+import commands.MoveCommand;
+import commands.SlideCommand;
 import model.tiles.Tile;
 
 import java.util.Random;
@@ -24,12 +26,17 @@ public class Game {
     // Players of the game
     private Player[] players;
 
+    // Turn information
+    private GameManager.TurnState turnState;
+
+
     /**
      * Constructor
      *
      * @param players players of the game
      */
-    public Game(Player[] players) {
+    public Game(GameManager.TurnState turnState, Player[] players) {
+        this.turnState = turnState;
         this.players = players;
     }
 
@@ -44,7 +51,10 @@ public class Game {
 
         // Initialize new board
         this.board = new Board(this.players, this.treasures);
-        this.insertableTile = this.board.init();
+        this.board.init();
+
+        this.insertableTile = board.getInsertableTile();
+
     }
 
     /**
@@ -116,7 +126,11 @@ public class Game {
      * @param slideDirection direction to slide the insertable tile
      * @param slideLine row or column number to slide the insertable tile
      */
-    public void slideInsertableTile(int slideDirection, int slideLine) {
+    public void slideInsertableTileAction(int slideDirection, int slideLine) {
+
+    }
+
+    public void movePlayerAction(int targetRow, int targetCol) {
 
     }
 

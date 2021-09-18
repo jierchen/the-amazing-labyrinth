@@ -70,6 +70,9 @@ public class Board {
     // Treasures
     private Treasure[] treasures;
 
+    // Insertable tile
+    private Tile insertableTile;
+
     /**
      * Constructor
      *
@@ -82,24 +85,18 @@ public class Board {
 
     /**
      * Initializes the board by setting up the board tiles
-     *
-     * @return the leftover insertable tile
      */
-    public Tile init() {
+    public void init() {
 
-        Tile insertableTile = setupTiles();
+        setupTiles();
         connectTiles(0, this.tiles.length - 1, 0, this.tiles.length - 1);
         connectPlayersToTiles();
-
-        return insertableTile;
     }
 
     /**
      * Initializes the board tiles properties
-     *
-     * @return returns the extra, insertable board tile
      */
-    private Tile setupTiles() {
+    private void setupTiles() {
         final int MAX_SHIFTABLE_TREASURE = 6;
         final int STATIONARY_TILE_AMOUNT = 12;
 
@@ -160,11 +157,8 @@ public class Board {
         TypeAndTreasureNum extraTileData = shiftableTilesData.get(dataCounter);
 
         // create extra tile object
-        Tile insertableTile = generateTile(-1, -1, extraTileData.getType(), extraTileData.getTreasureNum(), false);
-        insertableTile.setInsertable(true);
-
-        return insertableTile;
-
+        this.insertableTile = generateTile(-1, -1, extraTileData.getType(), extraTileData.getTreasureNum(), false);
+        this.insertableTile.setInsertable(true);
     }
 
     /**
@@ -381,5 +375,9 @@ public class Board {
 
     public Treasure[] getTreasures() {
         return this.treasures;
+    }
+
+    public Tile getInsertableTile() {
+        return this.insertableTile;
     }
 }
