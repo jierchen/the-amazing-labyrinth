@@ -51,7 +51,7 @@ public abstract class Tile extends Piece {
      * Removes current treasure on tile
      */
     public void removeTreasure() {
-
+        this.treasure = null;
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class Tile extends Piece {
      * @return if the treasure is not null
      */
     public boolean hasTreasure() {
-
+        return this.treasure != null;
     }
 
     /**
