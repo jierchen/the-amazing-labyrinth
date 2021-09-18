@@ -85,7 +85,14 @@ public abstract class Tile extends Piece {
      * @param player player to be added
      */
     public void addPlayerOnTile(Player player) {
-        
+        this.playersOnTile.add(player);
+
+        if(player.getTopOfHand() != null && player.getTopOfHand().getTreasure() == this.treasure) {
+            player.goToNextCard();
+
+            this.treasure.setCollected(true);
+            this.treasure = null;
+        }
     }
 
     /**
@@ -94,7 +101,7 @@ public abstract class Tile extends Piece {
      * @param player player to be removed
      */
     public void removePlayerOnTile(Player player) {
-
+        playersOnTile.remove(player);
     }
 
     /**
