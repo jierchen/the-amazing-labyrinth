@@ -27,7 +27,7 @@ public class GameController {
     /**
      * Controller
      *
-     *  @param turnState turn information
+     * @param turnState turn information
      * @param players
      * @param gameDisplay game view
      * @param game game model

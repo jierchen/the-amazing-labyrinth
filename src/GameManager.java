@@ -40,6 +40,6 @@ public class GameManager {
         GameDisplay gameDisplay = new GameDisplay(game);
 
         // Setup game controller
-        GameController gameController = new GameController(turnState, gameDisplay, game);
+        GameController gameController = new GameController(turnState, players, gameDisplay, game);
     }
 }
