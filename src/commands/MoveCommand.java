@@ -1,5 +1,6 @@
 package commands;
 
+import algorithm.GraphSearch;
 import model.Board;
 import model.Player;
 import model.tiles.Tile;
@@ -12,10 +13,12 @@ public class MoveCommand implements Command {
     private int targetRow;
     private int targetCol;
 
+    private GraphSearch graphSearch;
 
-    public MoveCommand(Board board) {
+    public MoveCommand(Board board, GraphSearch graphSearch) {
         this.board = board;
         this.tiles = board.getTiles();
+        this.graphSearch = graphSearch;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class MoveCommand implements Command {
      */
     @Override
     public boolean isLegal() {
-        return false;
+        return graphSearch.reachable(tiles, player.getRow(), player.getCol(), targetRow, targetCol);
     }
 
     // Getters and Setters

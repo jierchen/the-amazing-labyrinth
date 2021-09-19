@@ -63,7 +63,7 @@ public class Game {
 
         // Initalize commands
         slideCommand = new SlideCommand(getBoard());
-        moveCommand = new MoveCommand(getBoard());
+        moveCommand = new MoveCommand(getBoard(), new BreadthFirstSearch());
     }
 
     /**
