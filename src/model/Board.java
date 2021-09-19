@@ -282,7 +282,13 @@ public class Board {
      * @param col opposite tile column
      */
     private void reAddPlayers(int row, int col) {
-
+        for(Player player: players) {
+            if(player.getRow() == -1 && player.getCol() == -1) {
+                player.setRow(row);
+                player.setCol(col);
+                tiles[row][col].addPlayerOnTile(player);
+            }
+        }
     }
 
     /**
