@@ -130,39 +130,36 @@ public class Game {
     }
 
     /**
-     *
+     * Slide insertable tile action for the turn
      *
      * @param slideDirection direction to slide the insertable tile
      * @param slideLine row or column number to slide the insertable tile
      */
     public void slideInsertableTileAction(int slideDirection, int slideLine) {
-        if(!turnState.hasInsertedTile() && !turnState.hasMoved()) {
-            System.out.println("Slide");
-            slideCommand.setDirection(slideDirection);
-            slideCommand.setLine(slideLine);
+        slideCommand.setDirection(slideDirection);
+        slideCommand.setLine(slideLine);
 
-            if (slideCommand.isLegal()) {
-                slideCommand.execute();
+        if (slideCommand.isLegal()) {
+            slideCommand.execute();
 
-                turnState.setInsertedTile(true);
-
-                // Retrieve new insertable tile
-                this.insertableTile = board.getInsertableTile();
-            }
+            // Retrieve new insertable tile
+            this.insertableTile = board.getInsertableTile();
         }
     }
 
+    /**
+     * Move player action for the turn
+     *
+     * @param targetRow row to move to
+     * @param targetCol column to move to
+     */
     public void movePlayerAction(int targetRow, int targetCol) {
-        if(turnState.hasInsertedTile() && !turnState.hasMoved()) {
-            moveCommand.setPlayer(players[turnState.getPlayerTurn()]);
-            moveCommand.setTargetRow(targetRow);
-            moveCommand.setTargetCol(targetCol);
+        moveCommand.setPlayer(players[turnState.getPlayerTurn()]);
+        moveCommand.setTargetRow(targetRow);
+        moveCommand.setTargetCol(targetCol);
 
-            if (moveCommand.isLegal()) {
-                moveCommand.execute();
-
-                turnState.setMoved(true);
-            }
+        if (moveCommand.isLegal()) {
+            moveCommand.execute();
         }
     }
 

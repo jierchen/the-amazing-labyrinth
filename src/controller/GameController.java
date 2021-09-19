@@ -2,6 +2,7 @@ package controller;
 
 import model.Board;
 import model.Game;
+import model.Player;
 import util.TurnState;
 import view.BoardDisplay;
 import view.GameDisplay;
@@ -16,6 +17,8 @@ public class GameController {
     private GameDisplay gameDisplay;
     private Game game;
 
+    private Player[] players;
+
     private BoardDisplay boardDisplay;
     private Board board;
 
@@ -24,12 +27,14 @@ public class GameController {
     /**
      * Controller
      *
-     * @param turnState turn information
+     *  @param turnState turn information
+     * @param players
      * @param gameDisplay game view
      * @param game game model
      */
-    public GameController(TurnState turnState, GameDisplay gameDisplay, Game game) {
+    public GameController(TurnState turnState, Player[] players, GameDisplay gameDisplay, Game game) {
         this.turnState = turnState;
+        this.players = players;
         this.gameDisplay = gameDisplay;
         this.game = game;
 
@@ -53,19 +58,37 @@ public class GameController {
         boardDisplay.addMoveListeners(new MoveListener());
     }
 
+    public void endGame() {
+        turnState.setGameEnded(true);
+    }
+
+    /**
+     * Prepares turn state for next turn
+     */
+    public void nextTurn() {
+        turnState.setPlayerTurn((turnState.getPlayerTurn() + 1) % 4);
+        turnState.setInsertedTile(false);
+        turnState.setMoved(false);
+    }
+
     /**
      * User input to slide the insertable tile and shift the board
      */
     public class SlideListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            TileSlider slider = (TileSlider) e.getSource();
+            if (!turnState.hasGameEnded() && !turnState.hasInsertedTile() && !turnState.hasMoved()) {
+                TileSlider slider = (TileSlider) e.getSource();
 
-            game.slideInsertableTileAction(slider.getDirection(), slider.getLineResponsible());
+                game.slideInsertableTileAction(slider.getDirection(), slider.getLineResponsible());
 
-            boardDisplay.updateBoard();
-            gameDisplay.getInsertableTileDisplay().update(game.getInsertableTile());
-            boardDisplay.updatePlayerViews();
+                boardDisplay.updateBoard();
+                gameDisplay.getInsertableTileDisplay().update(game.getInsertableTile());
+                boardDisplay.updatePlayerViews();
+
+                // Update turnState
+                turnState.setInsertedTile(true);
+            }
         }
     }
 
@@ -75,11 +98,14 @@ public class GameController {
     public class RotateListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Rotate extra tile
-            board.getInsertableTile().rotate();
+            if(!turnState.hasGameEnded() && !turnState.hasInsertedTile()) {
+                // Rotate extra tile
+                board.getInsertableTile().rotate();
 
-            // Update extraTileDisplay
-            gameDisplay.getInsertableTileDisplay().update(board.getInsertableTile());
+                // Update extraTileDisplay
+                gameDisplay.getInsertableTileDisplay().update(board.getInsertableTile());
+
+            }
         }
     }
 
@@ -89,20 +115,25 @@ public class GameController {
     public class MoveListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            TileDisplay[][] tileDisplays = boardDisplay.getTileDisplays();
+            if(!turnState.hasGameEnded() && turnState.hasInsertedTile() && !turnState.hasMoved()) {
+                TileDisplay[][] tileDisplays = boardDisplay.getTileDisplays();
 
-            // Scroll through all Tile JButtons
-            for(int row = 0; row < tileDisplays.length; row++) {
-                for(int col = 0; col < tileDisplays.length; col++) {
-                    if(e.getSource() == tileDisplays[row][col].getTileImage()) {
-                        game.movePlayerAction(row, col);
+                // Scroll through all Tile JButtons
+                for (int row = 0; row < tileDisplays.length; row++) {
+                    for (int col = 0; col < tileDisplays.length; col++) {
+                        if (e.getSource() == tileDisplays[row][col].getTileImage()) {
+                            game.movePlayerAction(row, col);
 
-                        boardDisplay.updateBoard();
-                        boardDisplay.updatePlayerViews();
+                            boardDisplay.updateBoard();
+                            boardDisplay.updatePlayerViews();
+                        }
                     }
                 }
-            }
 
+                // Go to next turn
+                turnState.setMoved(true);
+                nextTurn();
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Enscapulation class to hold current turn data to enforce rules
+ * Encapsulation class to hold current turn data to enforce rules
  */
 public class TurnState {
     private int playerTurn;
