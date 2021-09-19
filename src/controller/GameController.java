@@ -28,7 +28,7 @@ public class GameController {
      * Controller
      *
      * @param turnState turn information
-     * @param players
+     * @param players players of the game
      * @param gameDisplay game view
      * @param game game model
      */
@@ -69,6 +69,20 @@ public class GameController {
         turnState.setPlayerTurn((turnState.getPlayerTurn() + 1) % 4);
         turnState.setInsertedTile(false);
         turnState.setMoved(false);
+
+        if(checkGameHasWinner()) {
+            endGame();
+        }
+    }
+
+    private boolean checkGameHasWinner() {
+        for(Player player: players) {
+            if(player.hasReturnedHome()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -80,11 +94,11 @@ public class GameController {
             if (!turnState.hasGameEnded() && !turnState.hasInsertedTile() && !turnState.hasMoved()) {
                 TileSlider slider = (TileSlider) e.getSource();
 
+                // Update model
                 game.slideInsertableTileAction(slider.getDirection(), slider.getLineResponsible());
 
-                boardDisplay.updateBoard();
-                gameDisplay.getInsertableTileDisplay().update(game.getInsertableTile());
-                boardDisplay.updatePlayerViews();
+                // Update view
+                gameDisplay.update();
 
                 // Update turnState
                 turnState.setInsertedTile(true);
@@ -102,7 +116,7 @@ public class GameController {
                 // Rotate extra tile
                 board.getInsertableTile().rotate();
 
-                // Update extraTileDisplay
+                // Update insertable tile view
                 gameDisplay.getInsertableTileDisplay().update(board.getInsertableTile());
 
             }
@@ -123,12 +137,12 @@ public class GameController {
                     for (int col = 0; col < tileDisplays.length; col++) {
                         if (e.getSource() == tileDisplays[row][col].getTileImage()) {
                             game.movePlayerAction(row, col);
-
-                            boardDisplay.updateBoard();
-                            boardDisplay.updatePlayerViews();
                         }
                     }
                 }
+
+                // Update view
+                gameDisplay.update();
 
                 // Go to next turn
                 turnState.setMoved(true);
