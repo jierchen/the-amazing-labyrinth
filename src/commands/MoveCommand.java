@@ -15,12 +15,21 @@ public class MoveCommand implements Command {
 
     private GraphSearch graphSearch;
 
+    /**
+     * Constructor
+     *
+     * @param board board model
+     * @param graphSearch graph search algorithm to use
+     */
     public MoveCommand(Board board, GraphSearch graphSearch) {
         this.board = board;
         this.tiles = board.getTiles();
         this.graphSearch = graphSearch;
     }
 
+    /**
+     * Moves player on the board to the target location
+     */
     @Override
     public void execute() {
         board.movePlayer(player, targetRow, targetCol);

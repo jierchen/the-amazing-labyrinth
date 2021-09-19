@@ -21,6 +21,13 @@ public class GameController {
 
     private TurnState turnState;
 
+    /**
+     * Controller
+     *
+     * @param turnState turn information
+     * @param gameDisplay game view
+     * @param game game model
+     */
     public GameController(TurnState turnState, GameDisplay gameDisplay, Game game) {
         this.turnState = turnState;
         this.gameDisplay = gameDisplay;
@@ -32,6 +39,9 @@ public class GameController {
         init();
     }
 
+    /**
+     * Connects the GUI to the ActionListeners
+     */
     public void init() {
         // Add slider listeners
         gameDisplay.addSlideListeners(new SlideListener());
@@ -43,12 +53,15 @@ public class GameController {
         boardDisplay.addMoveListeners(new MoveListener());
     }
 
+    /**
+     * User input to slide the insertable tile and shift the board
+     */
     public class SlideListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             TileSlider slider = (TileSlider) e.getSource();
 
-            game.slideInsertableTileAction(slider.getOrientation(), slider.getLineResponsible());
+            game.slideInsertableTileAction(slider.getDirection(), slider.getLineResponsible());
 
             boardDisplay.updateBoard();
             gameDisplay.getInsertableTileDisplay().update(game.getInsertableTile());
@@ -56,6 +69,9 @@ public class GameController {
         }
     }
 
+    /**
+     * User input to rotate the insertable tile
+     */
     public class RotateListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -67,6 +83,9 @@ public class GameController {
         }
     }
 
+    /**
+     * User input to move the player on the board
+     */
     public class MoveListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

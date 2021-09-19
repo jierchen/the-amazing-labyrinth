@@ -14,10 +14,18 @@ public class SlideCommand implements Command {
     private int direction = -1;
     private int line = -1;
 
+    /**
+     * Constructor
+     *
+     * @param board board model
+     */
     public SlideCommand(Board board) {
         this.board = board;
     }
 
+    /**
+     * Shifts the board for the appropriate direction and line
+     */
     @Override
     public void execute() {
         switch (direction) {
@@ -41,6 +49,11 @@ public class SlideCommand implements Command {
         }
     }
 
+    /**
+     * Determines if the board line is shiftable
+     *
+     * @return if slider is usable
+     */
     @Override
     public boolean isLegal() {
         return SHIFTABLE_LINES.contains(line);
