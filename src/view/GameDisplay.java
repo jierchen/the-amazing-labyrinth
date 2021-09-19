@@ -44,7 +44,7 @@ public class GameDisplay extends JFrame {
         setLayout(null);
         setVisible(true);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(new Color(150, 220, 220));
+        getContentPane().setBackground(new Color(210, 210, 150));
 
         // GUI initialization
         boardDisplay = new BoardDisplay(game.getBoard());
