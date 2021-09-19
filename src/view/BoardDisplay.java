@@ -78,12 +78,14 @@ public class BoardDisplay extends JPanel {
     /**
      * Updates board to match model
      */
-    public void updateBoard(){
+    public void update(){
         for(int i = 0; i < 7; i++){
             for(int j = 0; j < 7; j++){
                 tileDisplays[i][j].update(board.getTiles()[i][j]);
             }
         }
+
+        updatePlayerViews();
     }
 
     public void updateRowTiles(int row) {

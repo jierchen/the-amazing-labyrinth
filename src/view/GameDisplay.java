@@ -108,6 +108,16 @@ public class GameDisplay extends JFrame {
     }
 
     /**
+     * Updates entire game model from bottom up
+     */
+    public void update() {
+        boardDisplay.update();
+
+        insertableTileDisplay.update(game.getInsertableTile());
+        updateCardDisplay();
+    }
+
+    /**
      * Update cards to show next treasure to collect
      */
     public void updateCardDisplay() {
