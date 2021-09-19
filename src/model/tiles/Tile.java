@@ -144,10 +144,20 @@ public abstract class Tile extends Piece {
     @Override
     public void setRow(int row) {
         super.setRow(row);
+
+        // Move players on this tile to new column position
+        for(Player playerOnTile: playersOnTile) {
+            playerOnTile.setRow(row);
+        }
     }
     @Override
     public void setCol(int col) {
         super.setCol(col);
+
+        // Move players on this tile to new column position
+        for(Player playerOnTile: playersOnTile) {
+            playerOnTile.setCol(col);
+        }
     }
 
     public boolean[] getOpenings() {
