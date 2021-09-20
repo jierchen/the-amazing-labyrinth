@@ -144,6 +144,8 @@ public class Game {
 
             // Retrieve new insertable tile
             this.insertableTile = board.getInsertableTile();
+
+            turnState.setInsertedTile(true);
         }
     }
 
@@ -160,6 +162,8 @@ public class Game {
 
         if (moveCommand.isLegal()) {
             moveCommand.execute();
+
+            turnState.setMoved(true);
         }
     }
 

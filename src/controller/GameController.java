@@ -99,9 +99,6 @@ public class GameController {
 
                 // Update view
                 gameDisplay.update();
-
-                // Update turnState
-                turnState.setInsertedTile(true);
             }
         }
     }
@@ -144,8 +141,10 @@ public class GameController {
                 // Update view
                 gameDisplay.update();
 
-                // Go to next turn
-                turnState.setMoved(true);
+            }
+
+            // Go to next turn if successful move
+            if(turnState.hasMoved()) {
                 nextTurn();
             }
         }
