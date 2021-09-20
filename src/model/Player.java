@@ -1,5 +1,6 @@
 package model;
 
+import ai.ComputerAgent;
 import model.tiles.Tile;
 
 import java.util.Stack;
@@ -12,6 +13,9 @@ public class Player extends Piece {
     // Home tile information
     private Tile homeTile;
     private boolean returnedHome = false;
+
+    // AI Agent
+    private ComputerAgent computerAgent;
 
     /**
      * Constructor
@@ -88,5 +92,13 @@ public class Player extends Piece {
 
     public Tile getHomeTile() {
         return homeTile;
+    }
+
+    public void setComputerAgent(ComputerAgent computerAgent) {
+        this.computerAgent = computerAgent;
+    }
+
+    public ComputerAgent getComputerAgent() {
+        return this.computerAgent;
     }
 }
