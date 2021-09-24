@@ -1,3 +1,6 @@
+import ai.ComputerAgent;
+import ai.EasyAgent;
+import ai.NormalAgent;
 import controller.GameController;
 import model.Game;
 import model.Player;
@@ -13,33 +16,52 @@ public class GameManager {
     private Game game;
 
     private Player[] players;
+    private boolean[] isAI;
 
     private TurnState turnState;
 
     /**
      * Constructor
      */
-    public GameManager() {
-
+    public GameManager(boolean[] isAI) {
+        this.isAI = isAI;
+        players = new Player[NUM_PLAYERS];
     }
 
     /**
      * Initializes Model View Controller and turn state
      */
     public void init() {
-        players = new Player[NUM_PLAYERS];
-
         // Setup turnState
-        turnState = new TurnState(0, false, false, false);
+        turnState = new TurnState(0, false, false, isAI[0]);
 
         // Setup game model
-        Game game = new Game(turnState, players);
+        game = new Game(turnState, players);
         game.init();
+        System.out.println(game.getBoard());
+
+        players = game.getBoard().getPlayers();
+        setupAI();
 
         // Setup game view
-        GameDisplay gameDisplay = new GameDisplay(game);
+        gameDisplay = new GameDisplay(game);
 
         // Setup game controller
-        GameController gameController = new GameController(turnState, players, gameDisplay, game);
+        gameController = new GameController(turnState, players, isAI, gameDisplay, game);
+    }
+
+    /**
+     * Initializes players for the game
+     */
+    private void setupAI() {
+        // Preset player data
+        for(int playerNum = 0; playerNum < NUM_PLAYERS; playerNum++) {
+
+            // Player is an AI
+            if(isAI[playerNum]) {
+                ComputerAgent computerAgent = new NormalAgent(game.getBoard(), players[playerNum]);
+                players[playerNum].setComputerAgent(computerAgent);
+            }
+        }
     }
 }

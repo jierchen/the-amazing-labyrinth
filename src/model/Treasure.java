@@ -16,6 +16,13 @@ public class Treasure {
         this.treasureNum = treasureNum;
     }
 
+    public Treasure clone() {
+        Treasure cloneTreasure = new Treasure(treasureNum);
+        cloneTreasure.setCollected(collected);
+
+        return cloneTreasure;
+    }
+
     // Setters and getters
     public int getTreasureNum() {
         return treasureNum;

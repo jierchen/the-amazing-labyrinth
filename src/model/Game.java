@@ -71,7 +71,7 @@ public class Game {
      */
     private void setupPlayers() {
         // Preset player data
-        String[] colours =  {"Red", "Blue", "Green", "Purple"};
+        String[] colours =  {"Purple", "Blue", "Red", "Green"};
         int[][] startingPoints = {{0,0}, {6, 0}, {0, 6}, {6, 6}};
 
         for(int playerNum = 0; playerNum < NUM_PLAYERS; playerNum++) {
@@ -176,4 +176,11 @@ public class Game {
         return insertableTile;
     }
 
+    public TurnState getTurnState() {
+        return turnState;
+    }
+
+    public void setTurnState(TurnState turnState) {
+        this.turnState = turnState;
+    }
 }

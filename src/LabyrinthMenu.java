@@ -88,7 +88,7 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
         if (e.getSource() == startButton) {
 
             // create new game instance
-            GameManager gameManager = new GameManager();
+            GameManager gameManager = new GameManager(isAI);
             gameManager.init();
 
             this.dispose();

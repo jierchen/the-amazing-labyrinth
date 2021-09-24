@@ -87,11 +87,13 @@ public abstract class Tile extends Piece {
     public void addPlayerOnTile(Player player) {
         playersOnTile.add(player);
 
-        if(player.getTopOfHand() != null && player.getTopOfHand().getTreasure() == treasure) {
-            player.goToNextCard();
+        if(hasTreasure() && player.getTopOfHand() != null) {
+            if(player.getTopOfHand().getTreasure().getTreasureNum() == treasure.getTreasureNum()) {
+                player.goToNextCard();
 
-            treasure.setCollected(true);
-            treasure = null;
+                treasure.setCollected(true);
+                treasure = null;
+            }
         }
     }
 
@@ -131,6 +133,30 @@ public abstract class Tile extends Piece {
      * Sets tile openings based on tile type and orientation
      */
     public abstract void updateOpenings();
+
+    public Tile clone() {
+        Tile cloneTile = null;
+        switch (type) {
+            case 'I':
+                cloneTile = new ITile(getRow(), getCol(), getOrientation());
+                break;
+            case 'L':
+                cloneTile = new LTile(getRow(), getCol(), getOrientation());
+                break;
+            case 'T':
+                cloneTile = new TTile(getRow(), getCol(), getOrientation());
+                break;
+            default:
+                break;
+        }
+        cloneTile.setInsertable(insertable);
+
+        if(treasure != null) {
+            cloneTile.setTreasure(treasure.clone());
+        }
+
+        return cloneTile;
+    }
 
     // Setters and getters
     public ArrayList<Tile> getAdjTiles() {

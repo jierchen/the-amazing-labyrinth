@@ -45,4 +45,11 @@ public class TurnState {
     public boolean hasGameEnded() {
         return gameEnded;
     }
+
+    public void setAiTurn(boolean aiTurn) {
+        this.aiTurn = aiTurn;
+    }
+    public boolean isAiTurn() {
+        return aiTurn;
+    }
 }

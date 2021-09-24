@@ -88,7 +88,9 @@ public class Board {
      * Initializes the board by setting up the board tiles
      */
     public void init() {
-        setupTiles();
+        if(insertableTile == null) {
+            setupTiles();
+        }
         connectTiles(0, tiles.length - 1, 0, tiles.length - 1);
         connectPlayersToTiles();
     }
@@ -248,7 +250,9 @@ public class Board {
         for(Player player: players) {
             Tile homeTile = tiles[player.getRow()][player.getCol()];
 
-            player.setHomeTile(homeTile);
+            player.setHomeRow(player.getRow());
+            player.setHomeCol(player.getCol());
+
             homeTile.addPlayerOnTile(player);
         }
     }
@@ -308,9 +312,34 @@ public class Board {
         tiles[row][col].addPlayerOnTile(player);
 
         // Check if player returned home with all treasures
-        if(player.hasCollectedAll() && tiles[player.getRow()][player.getCol()] == player.getHomeTile()) {
+        if(player.hasCollectedAll()
+                && player.getRow() == player.getHomeRow()
+                && player.getCol() == player.getHomeCol()) {
+
             player.setReturnedHome(true);
         }
+    }
+
+    public void shiftBoard(int sliderNum) {
+        int line = (sliderNum % 3) * 2 + 1;
+
+        // Shift down
+        if(sliderNum >= 0 && sliderNum < 3) {
+            shiftColDown(line);
+        }
+        // Shift left
+        else if (sliderNum >= 3 && sliderNum < 6) {
+            shiftRowLeft(line);
+        }
+        // Shift up
+        else if (sliderNum >= 6 && sliderNum < 9) {
+            shiftColUp(line);
+        }
+        // Shift right
+        else {
+            shiftRowRight(line);
+        }
+
     }
 
     /**
@@ -455,6 +484,53 @@ public class Board {
         tiles[row][col].setInsertable(false);
     }
 
+    public Board clone() {
+
+        // Deep copy players
+        Player[] clonePlayers = new Player[Game.NUM_PLAYERS];
+        for(int playerNum = 0; playerNum < 4; playerNum++) {
+            Player clonePlayer = players[playerNum].clone();
+            clonePlayers[playerNum] = clonePlayer;
+        }
+
+        // Deep copy tiles
+        Tile[][] cloneTiles = new Tile[NUM_OF_TILES_PER_SIDE][NUM_OF_TILES_PER_SIDE];
+        for(int row = 0; row < NUM_OF_TILES_PER_SIDE; row++) {
+            for(int col = 0; col < NUM_OF_TILES_PER_SIDE; col++) {
+                Tile cloneTile = tiles[row][col].clone();
+                cloneTiles[row][col] = cloneTile;
+            }
+        }
+
+        // Deep copy treasures
+        Treasure[] cloneTreasures = new Treasure[Treasure.TREASURE_AMOUNT];
+        for(int treasureNum = 0; treasureNum < Treasure.TREASURE_AMOUNT; treasureNum++) {
+            Treasure cloneTreasure = treasures[treasureNum].clone();
+            cloneTreasures[treasureNum] = cloneTreasure;
+        }
+
+        // Deep copy insertable tile
+        Tile cloneInsertableTile = insertableTile.clone();
+
+        // Setup board
+        Board cloneBoard = new Board(clonePlayers, cloneTreasures);
+        cloneBoard.setTiles(cloneTiles);
+        cloneBoard.setInsertableTile(cloneInsertableTile);
+        cloneBoard.init();
+
+        return cloneBoard;
+    }
+
+    public Player getPlayerByColor(String colour) {
+        for(Player player: players) {
+            if(player.getColour() == colour) {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     // Getters and Setters
     public void setTiles(Tile[][] tiles){
         this.tiles = tiles;
@@ -470,6 +546,10 @@ public class Board {
 
     public Treasure[] getTreasures() {
         return treasures;
+    }
+
+    public void setInsertableTile(Tile insertableTile) {
+        this.insertableTile = insertableTile;
     }
 
     public Tile getInsertableTile() {

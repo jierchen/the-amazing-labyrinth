@@ -6,6 +6,8 @@ import model.Board;
 import model.Player;
 import model.tiles.Tile;
 
+import java.util.ArrayList;
+
 public abstract class ComputerAgent {
 
     protected final double MAX_PRIORITY = 100;
@@ -14,16 +16,14 @@ public abstract class ComputerAgent {
     private Board board;
 
     // AI's target tile location for treasure
-    private int targetRow;
-    private int targetCol;
+    private int targetRow = -1;
+    private int targetCol = -1;
 
     // AI's selected moves
     private int selectedSlider = 0;
     private int selectedRow;
     private int selectedCol;
-
-    // AI's priority scale
-    private double[][] weightMatrix = new double[7][7];
+    private int selectedRotateOrientation = 0;
 
     private Player player;
 
@@ -38,6 +38,47 @@ public abstract class ComputerAgent {
     }
 
     public abstract void evaluateChoices();
+
+    /**
+     * Calculate the target
+     *
+     * @param cloneTiles original board tiles
+     */
+    protected void calculateTarget(Tile[][] cloneTiles, Player clonePlayer) {
+        outerloop: for(int row = 0; row < 7; row++) {
+            for(int col = 0; col < 7; col++) {
+                if(clonePlayer.getTopOfHand() != null
+                        && cloneTiles[row][col].hasTreasure()
+                        && clonePlayer.getTopOfHand().getTreasure().getTreasureNum()
+                        == cloneTiles[row][col].getTreasure().getTreasureNum()) {
+                    setTargetRow(row);
+                    setTargetCol(col);
+                    break outerloop;
+                } else if (clonePlayer.hasCollectedAll()
+                        && row == clonePlayer.getHomeRow()
+                        && col == clonePlayer.getHomeCol()) {
+                    setTargetRow(row);
+                    setTargetCol(col);
+                    break outerloop;
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculates the priority weighting of a viable tile based on relative
+     * distance to target tile row and column
+     *
+     * @param row row of the viable tile
+     * @param col column of the viable tile
+     * @return the weighting of the viable tile to move to
+     */
+    protected double calcRelativeWeight(int row, int col) {
+        double distance = Math.sqrt(Math.pow(row - getTargetRow(), 2)
+                + Math.pow(col - getTargetCol(), 2));
+
+        return MAX_PRIORITY - Math.pow(distance, 2);
+    }
 
     // Getters and Setters
     public int getSelectedSlider() {
@@ -96,12 +137,11 @@ public abstract class ComputerAgent {
         this.player = player;
     }
 
-    public double[][] getWeightMatrix() {
-        return weightMatrix;
+    public int getSelectedRotateOrientation() {
+        return selectedRotateOrientation;
     }
 
-    public void setWeightMatrix(double[][] weightMatrix) {
-        this.weightMatrix = weightMatrix;
+    public void setSelectedRotateOrientation(int selectedRotateOrientation) {
+        this.selectedRotateOrientation = selectedRotateOrientation;
     }
-
 }

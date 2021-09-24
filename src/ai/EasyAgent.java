@@ -13,6 +13,9 @@ public class EasyAgent extends ComputerAgent {
     private int previousRow = -1;
     private int previousCol = -1;
 
+    // EasyAI's priority scale
+    private double[][] weightMatrix = new double[7][7];
+
     /**
      * Constructor
      *
@@ -25,20 +28,28 @@ public class EasyAgent extends ComputerAgent {
 
     @Override
     public void evaluateChoices() {
+        rotateSimulation();
         slideSimulation();
         moveSimulation();
     }
 
+    /**
+     * Calculate the best tile to move to
+     */
     private void moveSimulation() {
-        Tile[][] boardTiles = getBoard().getTiles();
+        Board cloneBoard = getBoard().clone();
+
+        cloneBoard.shiftBoard(getSelectedSlider());
+
+        Tile[][] boardTiles = cloneBoard.getTiles();
 
         // Get objective tile
-        calculateTarget(boardTiles);
+        calculateTarget(boardTiles, cloneBoard.getPlayerByColor(getPlayer().getColour()));
 
-        MoveCommand aiMoveCommand = new MoveCommand(getBoard(), new BreadthFirstSearch());
-        aiMoveCommand.setPlayer(getPlayer());
+        MoveCommand aiMoveCommand = new MoveCommand(cloneBoard, new BreadthFirstSearch());
+        aiMoveCommand.setPlayer(cloneBoard.getPlayerByColor(getPlayer().getColour()));
 
-        double highestWeight = -100;
+        double highestWeight = MIN_PRIORITY;
 
         for(int row = 0; row < Board.NUM_OF_TILES_PER_SIDE; row++) {
             aiMoveCommand.setTargetRow(row);
@@ -57,7 +68,7 @@ public class EasyAgent extends ComputerAgent {
                         getWeightMatrix()[row][col] = calcRelativeWeight(row, col);
                     }
                 } else {
-                    getWeightMatrix()[row][col] = MIN_PRIORITY;
+                    getWeightMatrix()[row][col] = Double.NEGATIVE_INFINITY;
                 }
 
                 // Reduce priority to return to old location
@@ -65,7 +76,7 @@ public class EasyAgent extends ComputerAgent {
                     getWeightMatrix()[row][col] -= 15;
                 }
 
-                // Set highest prority square to move to
+                // Set highest priority square to move to
                 if(getWeightMatrix()[row][col] > highestWeight) {
                     highestWeight = getWeightMatrix()[row][col];
 
@@ -77,40 +88,32 @@ public class EasyAgent extends ComputerAgent {
 
         previousRow = getSelectedRow();
         previousCol = getSelectedCol();
-
-    }
-
-    private void calculateTarget(Tile[][] boardTiles) {
-        outerloop: for(int row = 0; row < 7; row++) {
-            for(int col = 0; col < 7; col++) {
-                if(getPlayer().getTopOfHand() != null
-                        && boardTiles[row][col].hasTreasure()
-                        && getPlayer().getTopOfHand().getTreasure() == boardTiles[row][col].getTreasure()) {
-                    setTargetRow(row);
-                    setTargetCol(col);
-                    break outerloop;
-                } else if (getPlayer().hasCollectedAll() && boardTiles[row][col] == getPlayer().getHomeTile()) {
-                    setTargetRow(row);
-                    setTargetCol(col);
-                    break outerloop;
-                }
-            }
-        }
-    }
-
-    private double calcRelativeWeight(int row, int col) {
-        double distance = Math.sqrt(Math.pow(row - getTargetRow(), 2)
-                            + Math.pow(col - getTargetCol(), 2));
-
-        return MAX_PRIORITY - Math.pow(distance, 2);
     }
 
     /**
-     * Select random slider
+     * Select random slider to use
      */
     private void slideSimulation() {
         Random rand = new Random();
 
         this.setSelectedSlider(rand.nextInt(12));
+    }
+
+    /**
+     * Do not rotate insertable tile
+     */
+    private void rotateSimulation() {
+        setSelectedRotateOrientation(getBoard().getInsertableTile().getOrientation());
+    }
+
+
+
+    // Getters and Setters
+    public double[][] getWeightMatrix() {
+        return weightMatrix;
+    }
+
+    public void setWeightMatrix(double[][] weightMatrix) {
+        this.weightMatrix = weightMatrix;
     }
 }
