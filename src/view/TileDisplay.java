@@ -5,7 +5,7 @@ import model.tiles.Tile;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class TileDisplay extends JLayeredPane{
+public class TileDisplay extends JLayeredPane {
 
     private JButton tileImage;
     private JLabel treasureImage;

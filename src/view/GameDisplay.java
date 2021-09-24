@@ -16,6 +16,8 @@ public class GameDisplay extends JFrame {
     // The extra tile
     private TileDisplay insertableTileDisplay;
 
+    private JLabel currentPlayer;
+
     // The board
     private BoardDisplay boardDisplay;
 
@@ -57,13 +59,21 @@ public class GameDisplay extends JFrame {
         // Properties of board GUI
         boardDisplay.setLocation(100,80);
 
+        // Properties of current player turn
+        currentPlayer = new JLabel();
+        currentPlayer.setSize(35, 35);
+        currentPlayer.setLocation(985, 200);
+
         // Properties of insertable tile GUI
         insertableTileDisplay.setSize(BoardDisplay.TILES_SIDE_LENGTH, BoardDisplay.TILES_SIDE_LENGTH);
         insertableTileDisplay.setLocation(1035, 180);
 
         // add components to view.GameDisplay
         add(boardDisplay);
+        add(currentPlayer);
         add(insertableTileDisplay);
+
+        updateVisualTurn();
     }
 
     /**
@@ -115,6 +125,13 @@ public class GameDisplay extends JFrame {
 
         insertableTileDisplay.update(game.getInsertableTile());
         updateCardDisplay();
+        updateVisualTurn();
+    }
+
+    public void updateVisualTurn() {
+        int playerTurn = game.getTurnState().getPlayerTurn();
+
+        currentPlayer.setIcon(new ImageIcon(getClass().getResource("../resources/game/players/player" + playerTurn + ".png")));
     }
 
     /**
