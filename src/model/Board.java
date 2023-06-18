@@ -211,6 +211,158 @@ public class Board {
         }
     }
 
+    /* Re-adds any players pushed off the board tiles to the other side */
+    private void reAddPlayers(int row, int col) {
+        for(Player player: players) {
+            if(player.getRow() == -1 && player.getCol() == -1) {
+                player.setRow(row);
+                player.setCol(col);
+                tiles[row][col].addPlayerOnTile(player);
+            }
+        }
+    }
+
+    /**
+     * Moves a player to a position.
+     * @param player {@code Player} to move
+     * @param row Destination row
+     * @param col Destination column
+     */
+    public void movePlayer(Player player, int row, int col) {
+        // Remove player from its current tile
+        tiles[player.getRow()][player.getCol()].removePlayerOnTile(player);
+
+        // Move to new tile
+        player.setRow(row);
+        player.setCol(col);
+        tiles[row][col].addPlayerOnTile(player);
+    }
+
+    /*
+     * Shifts a row of tiles to the left
+     * - Inserts the insertable tile from the right
+     * - The pushed out tile from the left becomes the new insertable tile
+     */
+    private void shiftRowLeft(int row) {
+        // Hold new extra tile
+        Tile newExtraTile = tiles[row][0];
+        becomeInsertableTile(newExtraTile);
+
+        // Shift row
+        for (int col = 0; col < tiles[row].length - 1; col++) {
+            tiles[row][col] = tiles[row][col + 1];
+            tiles[row][col].setCol(col);
+        }
+
+        // Insert previous extra tile to the end of row
+        becomeBoardTile(row, tiles.length - 1);
+
+        // Reconnect tile nodes
+        disconnectTiles(row - 1, row + 1, 0, tiles.length - 1);
+        connectTiles(row - 1, row + 1, 0, tiles.length - 1);
+
+        reAddPlayers(row, tiles.length - 1);
+        insertableTile = newExtraTile;
+    }
+
+    /*
+     * Shifts a row of tiles to the right
+     * - Inserts the insertable tile from the left
+     * - The pushed out tile from the right becomes the new insertable tile
+     */
+    private void shiftRowRight(int row) {
+        // Hold new extra tile
+        Tile newExtraTile = tiles[row][tiles.length - 1];
+        becomeInsertableTile(newExtraTile);
+
+        // Shift row
+        for (int col = tiles[row].length - 1; col > 0; col--) {
+            tiles[row][col] = tiles[row][col - 1];
+            tiles[row][col].setCol(col);
+        }
+
+        // Insert previous extra tile to the start of row
+        becomeBoardTile(row, 0);
+
+        // Reconnect tile nodes
+        disconnectTiles(row - 1, row + 1, 0, tiles.length - 1);
+        connectTiles(row - 1, row + 1, 0, tiles.length - 1);
+
+        reAddPlayers(row, 0);
+        insertableTile = newExtraTile;
+    }
+
+    /*
+     * Shifts a column of tiles down
+     * - Inserts the insertable tile from the top
+     * - The pushed out tile from the bottom becomes the new insertable tile
+     */
+    private void shiftColDown(int col) {
+        // Hold new extra tile
+        Tile newExtraTile = tiles[tiles.length - 1][col];
+        becomeInsertableTile(newExtraTile);
+
+        // Shift column
+        for (int row = tiles.length - 1; row > 0; row--) {
+            tiles[row][col] = tiles[row - 1][col];
+            tiles[row][col].setRow(row);
+        }
+
+        // Insert previous extra tile to the start of column
+        becomeBoardTile(0, col);
+
+        // Reconnect tile nodes
+        disconnectTiles(0, tiles.length - 1, col - 1, col + 1);
+        connectTiles(0, tiles.length - 1, col - 1, col + 1);
+
+        reAddPlayers(0, col);
+        insertableTile = newExtraTile;
+    }
+
+    /*
+     * Shifts a column of tiles up
+     * - Inserts the insertable tile from the bottom
+     * - The pushed out tile from the top becomes the new insertable tile
+     */
+    private void shiftColUp(int col) {
+        // Hold new extra tile
+        Tile newExtraTile = tiles[0][col];
+        becomeInsertableTile(newExtraTile);
+
+        // Shift column
+        for (int row = 0; row < tiles.length - 1; row++) {
+            tiles[row][col] = tiles[row + 1][col];
+            tiles[row][col].setRow(row);
+        }
+
+        // Insert previous extra tile to the end of column
+        becomeBoardTile(tiles.length - 1, col);
+
+        // Reconnect tile nodes
+        disconnectTiles(0, tiles.length - 1, col - 1, col + 1);
+        connectTiles(0, tiles.length - 1, col - 1, col + 1);
+
+        reAddPlayers(tiles.length - 1, col);
+        insertableTile = newExtraTile;
+    }
+
+    /* Converts a board tile to become the insertable tile */
+    private void becomeInsertableTile(Tile tile) {
+        tile.setRow(-1);
+        tile.setCol(-1);
+        tile.setInsertable(true);
+        tile.removeAllPlayersOnTile();
+        tile.removeAdjacentTiles();
+    }
+
+    /* Converts the extra tile to a board tile */
+    private void becomeBoardTile(int row, int col) {
+        tiles[row][col] = insertableTile;
+        tiles[row][col].setRow(row);
+        tiles[row][col].setCol(col);
+        tiles[row][col].setInsertable(false);
+    }
+
     public Tile getInsertableTile() {
         return this.insertableTile;
     }
