@@ -243,7 +243,7 @@ public class Board {
      * - Inserts the insertable tile from the right
      * - The pushed out tile from the left becomes the new insertable tile
      */
-    private void shiftRowLeft(int row) {
+    public void shiftRowLeft(int row) {
         // Hold new extra tile
         Tile newExtraTile = tiles[row][0];
         becomeInsertableTile(newExtraTile);
@@ -270,7 +270,7 @@ public class Board {
      * - Inserts the insertable tile from the left
      * - The pushed out tile from the right becomes the new insertable tile
      */
-    private void shiftRowRight(int row) {
+    public void shiftRowRight(int row) {
         // Hold new extra tile
         Tile newExtraTile = tiles[row][tiles.length - 1];
         becomeInsertableTile(newExtraTile);
@@ -297,7 +297,7 @@ public class Board {
      * - Inserts the insertable tile from the top
      * - The pushed out tile from the bottom becomes the new insertable tile
      */
-    private void shiftColDown(int col) {
+    public void shiftColDown(int col) {
         // Hold new extra tile
         Tile newExtraTile = tiles[tiles.length - 1][col];
         becomeInsertableTile(newExtraTile);
@@ -324,7 +324,7 @@ public class Board {
      * - Inserts the insertable tile from the bottom
      * - The pushed out tile from the top becomes the new insertable tile
      */
-    private void shiftColUp(int col) {
+    public void shiftColUp(int col) {
         // Hold new extra tile
         Tile newExtraTile = tiles[0][col];
         becomeInsertableTile(newExtraTile);
