@@ -2,6 +2,8 @@ package model;
 
 public class Card {
 
+    public static final int CARDS_PER_PLAYER = 5;
+
     private final int treasureNum;
 
     public Card(int treasureNum) {
