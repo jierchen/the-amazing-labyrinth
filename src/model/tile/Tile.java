@@ -65,6 +65,39 @@ public abstract class Tile extends Piece {
         return orientation;
     }
 
+    public void addPlayerOnTile(Player player) {
+        playersOnTile.add(player);
+
+        if(hasTreasure() && player.getTopOfHand() != null) {
+            if(player.getTopOfHand().getTreasureNum() == treasure.getNumber()) {
+                player.goToNextCard();
+
+                treasure.setCollected(true);
+                treasure = null;
+            }
+        }
+    }
+
+    public void removePlayerOnTile(Player player) {
+        playersOnTile.remove(player);
+    }
+
+    public void removeAllPlayersOnTile() {
+        playersOnTile.clear();
+    }
+
+    public boolean hasTreasure() {
+        return treasure != null;
+    }
+
+    public void addAdjacentTile(Tile tile) {
+        adjacentTiles.add(tile);
+    }
+
+    public void removeAdjacentTiles() {
+        adjacentTiles.clear();
+    }
+
     public boolean getOpening(Direction direction) {
         return openings[direction.getValue()];
     }
@@ -96,6 +129,10 @@ public abstract class Tile extends Piece {
 
     public void setInsertable(boolean isInsertable) {
         this.isInsertable = isInsertable;
+    }
+
+    public void setTreasure(Treasure treasure) {
+        this.treasure = treasure;
     }
 
     public Treasure getTreasure() {
