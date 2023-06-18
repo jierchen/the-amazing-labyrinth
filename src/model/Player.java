@@ -7,7 +7,7 @@ import java.util.Stack;
 public class Player extends Piece {
 
     private final PlayerType type;
-    private final Stack<Treasure> hand = new Stack<>();
+    private final Stack<Card> hand = new Stack<>();
 
     private final int homeRow;
     private final int homeCol;
@@ -25,7 +25,7 @@ public class Player extends Piece {
         }
     }
 
-    public Treasure getTopOfHand() {
+    public Card getTopOfHand() {
         if(!hand.empty()) {
             return hand.peek();
         }
@@ -33,8 +33,8 @@ public class Player extends Piece {
         return null;
     }
 
-    public void addToHand(Treasure treasure){
-        hand.push(treasure);
+    public void addToHand(Card card){
+        hand.push(card);
     }
 
     public boolean hasWon() {
@@ -43,9 +43,5 @@ public class Player extends Piece {
 
     public PlayerType getType() {
         return type;
-    }
-
-    public Stack<Treasure> getHand() {
-        return hand;
     }
 }
