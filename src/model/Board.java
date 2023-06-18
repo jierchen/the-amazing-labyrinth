@@ -125,17 +125,17 @@ public class Board {
         ArrayList<TileTypeAndTreasureNum> shiftableTilesData = new ArrayList<>();
         int shiftableTreasureCounter = STATIONARY_TILE_AMOUNT;
 
-        for(int i = 0; i < TauTile.TILE_AMOUNT; i++) {
+        for(int tauIndex = 0; tauIndex < TauTile.TILE_AMOUNT; tauIndex++) {
             shiftableTilesData.add(new TileTypeAndTreasureNum(TileType.TAU, shiftableTreasureCounter));
             shiftableTreasureCounter++;
         }
 
-        for(int i = 0; i < BentTile.TILE_AMOUNT; i++) {
-            shiftableTilesData.add(new TileTypeAndTreasureNum(TileType.BENT, (i < MAX_SHIFTABLE_TREASURE ? shiftableTreasureCounter : -1)));
+        for(int bentIndex = 0; bentIndex < BentTile.TILE_AMOUNT; bentIndex++) {
+            shiftableTilesData.add(new TileTypeAndTreasureNum(TileType.BENT, (bentIndex < MAX_SHIFTABLE_TREASURE ? shiftableTreasureCounter : -1)));
             shiftableTreasureCounter++;
         }
 
-        for(int i = 0; i < StraightTile.TILE_AMOUNT; i++) {
+        for(int straightIndex = 0; straightIndex < StraightTile.TILE_AMOUNT; straightIndex++) {
             shiftableTilesData.add(new TileTypeAndTreasureNum(TileType.STRAIGHT, -1));
         }
 
