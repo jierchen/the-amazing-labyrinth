@@ -14,17 +14,14 @@ public enum Direction {
         this.value = value;
     }
 
-    public static Direction from(int orientationValue) {
-        switch(orientationValue) {
-            case 0:
-                return UP;
-            case 1:
-                return RIGHT;
-            case 2:
-                return DOWN;
-            default:
-                return LEFT;
+    public static Direction from(int directionValue) {
+        for(Direction direction : Direction.values()) {
+            if(direction.getValue() == directionValue) {
+                return direction;
+            }
         }
+
+        throw new RuntimeException("Could not find Direction Enum with value " + directionValue);
     }
 
     public int getValue() {
