@@ -14,6 +14,19 @@ public enum Direction {
         this.value = value;
     }
 
+    public static Direction from(int orientationValue) {
+        switch(orientationValue) {
+            case 0:
+                return UP;
+            case 1:
+                return RIGHT;
+            case 2:
+                return DOWN;
+            default:
+                return LEFT;
+        }
+    }
+
     public int getValue() {
         return value;
     }
