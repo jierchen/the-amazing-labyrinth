@@ -29,6 +29,14 @@ public abstract class Tile extends Piece {
         updateOpenings();
     }
 
+    /**
+     * Factory to create new {@code Tile} concrete implementation.
+     * @param row Initial tile row.
+     * @param col Initial tile column.
+     * @param orientation Initial tile orientation.
+     * @param type Tile type.
+     * @return
+     */
     public static Tile create(int row, int col, Direction orientation, TileType type) {
         switch(type) {
             case STRAIGHT:
@@ -40,6 +48,7 @@ public abstract class Tile extends Piece {
         }
     }
 
+    /* Updates openings based on tile type and direction */
     protected abstract void updateOpenings();
 
     /**
