@@ -1,6 +1,10 @@
 package model;
 
+import commands.MoveCommand;
+import commands.SlideCommand;
+import enums.Direction;
 import enums.PlayerType;
+import helper.BreadthFirstSearch;
 import model.tile.Tile;
 
 import java.util.Random;
@@ -14,6 +18,11 @@ public class Game {
     private Treasure[] treasures;
     private Player[] players = new Player[NUM_PLAYERS];
     private Turn turn;
+    private boolean gameEnded = false;
+
+    // Commands
+    private MoveCommand moveCommand;
+    private SlideCommand slideCommand;
 
     public Game() {
         // Setup pre-game components
@@ -23,6 +32,7 @@ public class Game {
 
         // Initialize new board
         board = new Board(players, treasures);
+        turn = new Turn(PlayerType.PURPLE);
     }
 
     /* Initializes players for the game */
@@ -73,15 +83,44 @@ public class Game {
         }
     }
 
+    public void slideInsertableTileAction(Direction direction, int line) {
+        slideCommand = new SlideCommand(this, direction, line);
+        if(slideCommand.isLegal()) {
+            slideCommand.execute();
+            turn.inserted();
+        }
+    }
+
+    public void movePlayerAction(int row, int col) {
+        moveCommand = new MoveCommand(this, new BreadthFirstSearch(this.getBoard().getTiles()), row, col);
+        if(moveCommand.isLegal()) {
+            moveCommand.execute();
+            turn.moved();
+            turn.nextPlayer();
+        }
+    }
+
     public Tile getInsertableTile() {
         return this.board.getInsertableTile();
     }
 
     public Player getCurrentPlayer() {
-        return players[turn.getPlayerType().getValue()];
+        return players[turn.getCurrentPlayerType().getValue()];
     }
 
     public Board getBoard() {
         return this.board;
+    }
+
+    public boolean hasGameEnded() {
+        return gameEnded;
+    }
+
+    public void setGameEnded(boolean gameEnded) {
+        this.gameEnded = gameEnded;
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 }
