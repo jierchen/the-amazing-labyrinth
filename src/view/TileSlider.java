@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class TileSlider extends JButton {
 
-    private Direction direction;
-    private int line;
+    private final Direction direction;
+    private final int line;
     private boolean disabled = false;
 
     public TileSlider(int line, Direction direction) {
