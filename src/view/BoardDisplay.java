@@ -14,11 +14,12 @@ public class BoardDisplay extends JPanel{
 
     public static final int BOARD_SIDE_LENGTH = 600;
 
-    private Board board;
+    // Model
+    private final Board board;
 
-    private TileDisplay[][] tileDisplays = new TileDisplay[Board.NUM_OF_TILES_PER_SIDE][Board.NUM_OF_TILES_PER_SIDE];
-    private JLabel[] treasureViews = new JLabel[Treasure.TOTAL_AMOUNT];
-    private JLabel[] playerViews = new JLabel[Game.NUM_PLAYERS];
+    // Views
+    private final TileDisplay[][] tileDisplays = new TileDisplay[Board.NUM_OF_TILES_PER_SIDE][Board.NUM_OF_TILES_PER_SIDE];
+    private final JLabel[] playerViews = new JLabel[Game.NUM_PLAYERS];
 
     public BoardDisplay(Board board) {
         this.board = board;
