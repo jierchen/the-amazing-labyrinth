@@ -5,7 +5,11 @@ import model.Board;
 import model.Game;
 import model.Player;
 
+import java.util.logging.Logger;
+
 public class MoveCommand implements Command {
+
+    private static final Logger logger = Logger.getLogger(MoveCommand.class.getName());
 
     private Game game;
     private Player player;
@@ -28,8 +32,9 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
-        if(isLegal()) {
-            game.getBoard().movePlayer(player, targetRow, targetCol);
-        }
+        game.getBoard().movePlayer(player, targetRow, targetCol);
+
+        logger.info(String.format("Player %s moved from (%d, %d) to (%d, %d)",
+                player.getType(), player.getRow(), player.getCol(), targetRow, targetCol));
     }
 }
