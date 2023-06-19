@@ -9,22 +9,25 @@ import util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GameDisplay extends JFrame {
 
-    // Underlying model
+    private static final int NUM_SLIDERS = 12;
+
+    // Model
     private final Game game;
 
     // Views
     private BoardDisplay boardDisplay;
-    private TileDisplay insertableTileDisplay;
-    private TileSlider[] tileSliders = new TileSlider[12];
-    private JLabel[] cardDisplays;
-    private JLabel[] cardTreasureImages;
+    private final TileDisplay insertableTileDisplay = new TileDisplay();
+    private final TileSlider[] tileSliders = new TileSlider[NUM_SLIDERS];
+    private final JLabel[] cardDisplays = new JLabel[Game.NUM_PLAYERS];
+    private final JLabel[] cardTreasureImages = new JLabel[Game.NUM_PLAYERS];;
 
     // Turn information
-    private JLabel playerTurn = new JLabel("Player Turn:");
-    private JLabel currentPlayerImage;
+    private final JLabel playerTurn = new JLabel("Player Turn:");
+    private final JLabel currentPlayerImage = new JLabel();
 
     public GameDisplay(Game game) {
         this.game = game;
@@ -39,8 +42,7 @@ public class GameDisplay extends JFrame {
         setupCurrentPlayer();
 
         // Initial update
-        updatePlayerCards();
-        updateVisualTurn();
+        update();
     }
 
     public void update() {
@@ -74,7 +76,6 @@ public class GameDisplay extends JFrame {
     }
 
     private void setupCurrentPlayer() {
-        currentPlayerImage = new JLabel();
         currentPlayerImage.setSize(35, 35);
         currentPlayerImage.setLocation(985, 200);
         add(currentPlayerImage);
@@ -91,9 +92,6 @@ public class GameDisplay extends JFrame {
     }
 
     private void setupPlayerCards() {
-        cardDisplays = new JLabel[4];
-        cardTreasureImages = new JLabel[cardDisplays.length];
-
         for(int i = 0; i < cardDisplays.length; i++) {
             cardDisplays[i] = new JLabel(ImageLoader.getCardImage(PlayerType.from(i)));
             cardTreasureImages[i] = new JLabel();
@@ -125,12 +123,12 @@ public class GameDisplay extends JFrame {
                 tileSliders[i].setLocation(100 + (2 * order + 1) * tileLength, 80 - tileLength);
             }
             // Setup right sliders
-            else if (i >= 3 && i < 6) {
+            else if(i >= 3 && i < 6) {
                 tileSliders[i] = new TileSlider((2 * order) + 1, Direction.LEFT);
                 tileSliders[i].setLocation(100 + boardLength, 80 + (2 * order + 1) * tileLength);
             }
             // Setup bottom sliders
-            else if (i >= 6 && i < 9) {
+            else if(i >= 6 && i < 9) {
                 tileSliders[i] = new TileSlider((2 * order) + 1, Direction.UP);
                 tileSliders[i].setLocation(100 + (2 * order + 1) * tileLength, 80 + boardLength);
             }
@@ -146,7 +144,6 @@ public class GameDisplay extends JFrame {
     }
 
     private void setupInsertableTileDisplay() {
-        insertableTileDisplay = new TileDisplay();
         insertableTileDisplay.update(game.getInsertableTile());
         insertableTileDisplay.setSize(TileDisplay.TILE_SIDE_LENGTH, TileDisplay.TILE_SIDE_LENGTH);
         insertableTileDisplay.setLocation(1035, 180);
@@ -167,5 +164,19 @@ public class GameDisplay extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         getContentPane().setBackground(new Color(210, 210, 150));
+    }
+
+    public void addActionListenerToSliders(ActionListener actionListener) {
+        for(TileSlider tileSlider: tileSliders) {
+            tileSlider.addActionListener(actionListener);
+        }
+    }
+
+    public BoardDisplay getBoardDisplay() {
+        return boardDisplay;
+    }
+
+    public TileDisplay getInsertableTileDisplay() {
+        return insertableTileDisplay;
     }
 }

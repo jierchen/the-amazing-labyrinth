@@ -249,7 +249,7 @@ public class Board {
         becomeInsertableTile(newExtraTile);
 
         // Shift row
-        for (int col = 0; col < tiles[row].length - 1; col++) {
+        for(int col = 0; col < tiles[row].length - 1; col++) {
             tiles[row][col] = tiles[row][col + 1];
             tiles[row][col].setCol(col);
         }
@@ -276,7 +276,7 @@ public class Board {
         becomeInsertableTile(newExtraTile);
 
         // Shift row
-        for (int col = tiles[row].length - 1; col > 0; col--) {
+        for(int col = tiles[row].length - 1; col > 0; col--) {
             tiles[row][col] = tiles[row][col - 1];
             tiles[row][col].setCol(col);
         }
@@ -303,7 +303,7 @@ public class Board {
         becomeInsertableTile(newExtraTile);
 
         // Shift column
-        for (int row = tiles.length - 1; row > 0; row--) {
+        for(int row = tiles.length - 1; row > 0; row--) {
             tiles[row][col] = tiles[row - 1][col];
             tiles[row][col].setRow(row);
         }
@@ -330,7 +330,7 @@ public class Board {
         becomeInsertableTile(newExtraTile);
 
         // Shift column
-        for (int row = 0; row < tiles.length - 1; row++) {
+        for(int row = 0; row < tiles.length - 1; row++) {
             tiles[row][col] = tiles[row + 1][col];
             tiles[row][col].setRow(row);
         }
