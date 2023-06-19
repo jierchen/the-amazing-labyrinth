@@ -22,13 +22,13 @@ public class TileDisplay extends JLayeredPane {
     private void setTreasureImageProperties() {
         treasureImage.setSize(35,35);
         treasureImage.setLocation(25,27);
-        add(treasureImage);
+        add(treasureImage, JLayeredPane.POPUP_LAYER);
     }
 
     private void setTileImageProperties() {
         tileImage.setSize(TILE_SIDE_LENGTH, TILE_SIDE_LENGTH);
         tileImage.setLocation(0, 0);
-        add(tileImage);
+        add(tileImage, JLayeredPane.DEFAULT_LAYER);
     }
 
     private void setTileDisplayProperties() {
