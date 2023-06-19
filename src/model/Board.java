@@ -25,7 +25,7 @@ public class Board {
             {'L',' ','T',' ','T',' ','L'}
     };
 
-    private static final int[][] STATIONARY_TILES_ORIENTATION_MATRIX = new int[][] {
+    private static final char[][] STATIONARY_TILES_ORIENTATION_MATRIX = new char[][] {
             {'1',' ','2',' ','2',' ','2'},
             {' ',' ',' ',' ',' ',' ',' '},
             {'1',' ','1',' ','2',' ','3'},
@@ -57,9 +57,9 @@ public class Board {
     }
 
     // Order is left to right -> top to bottom
-    private Tile[][] tiles = new Tile[NUM_OF_TILES_PER_SIDE][NUM_OF_TILES_PER_SIDE];
-    private Player[] players;
-    private Treasure[] treasures;
+    private final Tile[][] tiles = new Tile[NUM_OF_TILES_PER_SIDE][NUM_OF_TILES_PER_SIDE];
+    private final Player[] players;
+    private final Treasure[] treasures;
     private Tile insertableTile;
 
     public Board(Player[] players, Treasure[] treasures) {
@@ -99,12 +99,12 @@ public class Board {
                 }
 
                 // Connects to the tile to the right
-                if(col != 6 && tiles[row][col].getOpening(Direction.RIGHT) && tiles[row][col + 1].getOpening(Direction.LEFT)) {
+                if(col != tiles.length - 1 && tiles[row][col].getOpening(Direction.RIGHT) && tiles[row][col + 1].getOpening(Direction.LEFT)) {
                     tiles[row][col].addAdjacentTile(tiles[row][col + 1]);
                 }
 
                 // Connects to the tile below
-                if(row != 6 && tiles[row][col].getOpening(Direction.DOWN) && tiles[row + 1][col].getOpening(Direction.UP)) {
+                if(row != tiles.length - 1 && tiles[row][col].getOpening(Direction.DOWN) && tiles[row + 1][col].getOpening(Direction.UP)) {
                     tiles[row][col].addAdjacentTile(tiles[row + 1][col]);
                 }
 
@@ -238,10 +238,11 @@ public class Board {
         tiles[row][col].addPlayerOnTile(player);
     }
 
-    /*
+    /**
      * Shifts a row of tiles to the left
      * - Inserts the insertable tile from the right
      * - The pushed out tile from the left becomes the new insertable tile
+     * @param row Row number.
      */
     public void shiftRowLeft(int row) {
         // Hold new extra tile
@@ -265,10 +266,11 @@ public class Board {
         insertableTile = newExtraTile;
     }
 
-    /*
+    /**
      * Shifts a row of tiles to the right
      * - Inserts the insertable tile from the left
      * - The pushed out tile from the right becomes the new insertable tile
+     * @param row Row number.
      */
     public void shiftRowRight(int row) {
         // Hold new extra tile
@@ -292,10 +294,11 @@ public class Board {
         insertableTile = newExtraTile;
     }
 
-    /*
+    /**
      * Shifts a column of tiles down
      * - Inserts the insertable tile from the top
      * - The pushed out tile from the bottom becomes the new insertable tile
+     * @param col Column number.
      */
     public void shiftColDown(int col) {
         // Hold new extra tile
@@ -319,10 +322,11 @@ public class Board {
         insertableTile = newExtraTile;
     }
 
-    /*
+    /**
      * Shifts a column of tiles up
      * - Inserts the insertable tile from the bottom
      * - The pushed out tile from the top becomes the new insertable tile
+     * @param col Column number.
      */
     public void shiftColUp(int col) {
         // Hold new extra tile
