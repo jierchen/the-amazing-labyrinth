@@ -1,5 +1,6 @@
 package commands;
 
+import enums.Direction;
 import model.Board;
 import model.Game;
 
@@ -11,10 +12,10 @@ public class SlideCommand implements Command {
     private static final ArrayList<Integer> SHIFTABLE_LINES = new ArrayList<>(List.of(1, 3, 5));
 
     private Game game;
-    private final int direction;
+    private final Direction direction;
     private final int line;
 
-    public SlideCommand(Game game, int direction, int line) {
+    public SlideCommand(Game game, Direction direction, int line) {
         this.game = game;
         this.direction = direction;
         this.line = line;
@@ -30,19 +31,19 @@ public class SlideCommand implements Command {
         Board board = game.getBoard();
 
         switch (direction) {
-            case 0 :
+            case UP:
                 board.shiftColUp(line);
                 break;
 
-            case 1:
+            case RIGHT:
                 board.shiftRowRight(line);
                 break;
 
-            case 2:
+            case DOWN:
                 board.shiftColDown(line);
                 break;
 
-            case 3:
+            case LEFT:
                 board.shiftRowLeft(line);
                 break;
         }
