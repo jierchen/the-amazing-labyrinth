@@ -366,4 +366,12 @@ public class Board {
     public Tile getInsertableTile() {
         return this.insertableTile;
     }
+
+    public Player[] getPlayers() {
+        return this.players;
+    }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
 }
