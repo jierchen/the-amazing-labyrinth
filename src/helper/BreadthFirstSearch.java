@@ -8,12 +8,20 @@ import java.util.Queue;
 
 public class BreadthFirstSearch implements GraphSearch {
 
-    private Tile[][] tiles;
+    private final Tile[][] tiles;
 
     public BreadthFirstSearch(Tile[][] tiles) {
         this.tiles = tiles;
     }
 
+    /**
+     * Determines if target tile is reachable from starting tile
+     * @param startRow Starting tile row.
+     * @param startCol Starting tile column.
+     * @param targetRow Target tile row.
+     * @param targetCol Target tile column.
+     * @return Target tile is reachable.
+     */
     @Override
     public boolean reachable(int startRow, int startCol, int targetRow, int targetCol) {
         boolean[][] visitedTiles = new boolean[tiles.length][tiles.length];
