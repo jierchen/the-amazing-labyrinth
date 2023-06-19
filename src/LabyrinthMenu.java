@@ -47,13 +47,6 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
     }
 
     private void setupPlayerButtons() {
-        // Setup colors
-        colors[0] = new Color(142, 30, 193);
-        colors[1] = new Color(51, 153, 255);
-        colors[2] = new Color(200, 30, 30);
-        colors[3] = new Color(0, 153, 0);
-
-        // Setup player button properties
         for(int i = 0; i < playerTypeButtons.length; i++) {
             playerTypeButtons[i] = new JButton();
 
@@ -97,7 +90,6 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
                     isBot[i] = false;
                 }
             }
-
         }
 
         // Exit button
