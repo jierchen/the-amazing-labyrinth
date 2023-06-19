@@ -8,6 +8,7 @@ import util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class BoardDisplay extends JPanel{
 
@@ -62,5 +63,43 @@ public class BoardDisplay extends JPanel{
                 add(tileDisplays[row][col]);
             }
         }
+    }
+
+    public void update() {
+        updateTileViews();
+        updatePlayerViews();
+    }
+
+    public void updateTileViews() {
+        for(int row = 0; row < tileDisplays.length; row++) {
+            for(int col = 0; col < tileDisplays.length; col++) {
+                tileDisplays[row][col].update(board.getTiles()[row][col]);
+            }
+        }
+    }
+
+    public void updatePlayerViews() {
+        for(int i = 0; i < playerViews.length; i++) {
+            // Remove playerView from old tileDisplay
+            TileDisplay oldTileDisplay = (TileDisplay) playerViews[i].getParent();
+            oldTileDisplay.remove(playerViews[i]);
+            oldTileDisplay.revalidate();
+            oldTileDisplay.repaint();
+
+            // Add playerView to new tileDisplay
+            tileDisplays[board.getPlayers()[i].getRow()][board.getPlayers()[i].getCol()].add(playerViews[i], JLayeredPane.DRAG_LAYER);
+        }
+    }
+
+    public void addActionListenerToAllTiles(ActionListener actionListener) {
+        for(TileDisplay[] tileDisplayRow: tileDisplays) {
+            for(TileDisplay tileDisplay: tileDisplayRow) {
+                tileDisplay.addActionListener(actionListener);
+            }
+        }
+    }
+
+    public TileDisplay[][] getTileDisplays() {
+        return tileDisplays;
     }
 }
