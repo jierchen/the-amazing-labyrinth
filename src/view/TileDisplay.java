@@ -36,6 +36,10 @@ public class TileDisplay extends JLayeredPane {
         setLayout(null);
     }
 
+    /**
+     * Updates tile image and treasure image based on given {@code Tile} model
+     * @param tile Tile to get information from.
+     */
     public void update(Tile tile) {
         tileImage.setIcon(ImageLoader.getTileImage(tile.getType(), tile.getOrientation()));
 
