@@ -6,14 +6,10 @@ import enums.PlayerType;
 public class Turn {
 
     private PlayerType currentPlayer;
-    private Action action;
+    private Action action = Action.INSERT;
 
     public Turn(PlayerType playerType) {
         this.currentPlayer = playerType;
-    }
-
-    public PlayerType getPlayerType() {
-        return currentPlayer;
     }
 
     public void nextPlayer() {
@@ -36,5 +32,17 @@ public class Turn {
 
     public void inserted() {
         action = Action.MOVE;
+    }
+
+    public void moved() {
+        action = Action.INSERT;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public PlayerType getCurrentPlayerType() {
+        return currentPlayer;
     }
 }
