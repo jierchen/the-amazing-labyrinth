@@ -10,13 +10,10 @@ import java.awt.event.ActionListener;
 public class TileDisplay extends JLayeredPane {
 
     public static final int TILE_SIDE_LENGTH = BoardDisplay.BOARD_SIDE_LENGTH / Board.NUM_OF_TILES_PER_SIDE;
-    private JButton tileImage;
-    private JLabel treasureImage;
+    private final JButton tileImage = new JButton();
+    private final JLabel treasureImage = new JLabel();
 
     public TileDisplay() {
-        tileImage = new JButton();
-        treasureImage = new JLabel();
-        
         setTileDisplayProperties();
         setTileImageProperties();
         setTreasureImageProperties();
