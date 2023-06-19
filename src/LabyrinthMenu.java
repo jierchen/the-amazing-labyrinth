@@ -8,8 +8,8 @@ public class LabyrinthMenu extends JFrame implements ActionListener {
     private final JButton startButton = new JButton();
     private final JButton[] playerTypeButtons = new JButton[4];
     private final JButton exitButton = new JButton();
-    private Color[] colors = new Color[4];
-    private boolean[] isBot = new boolean[4];
+    private final Color[] colors = new Color[4];
+    private final boolean[] isBot = new boolean[4];
 
     public LabyrinthMenu() {
         setupLabyrinthMenuProperties();
