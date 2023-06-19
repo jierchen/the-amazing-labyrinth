@@ -22,6 +22,6 @@ public class BentTile extends Tile {
 
     @Override
     protected void updateOpenings() {
-
+        openings = OPENINGS_BY_ORIENTATION[this.getOrientation().getValue()];
     }
 }

@@ -26,6 +26,7 @@ public abstract class Tile extends Piece {
         super(row, col);
         this.orientation = orientation;
         this.type = type;
+        updateOpenings();
     }
 
     public static Tile create(int row, int col, Direction orientation, TileType type) {
